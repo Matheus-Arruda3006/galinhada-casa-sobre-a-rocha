@@ -3,7 +3,7 @@ import './App.css';
 
 // ===== CONFIGURAÇÃO RÁPIDA =====
 // Se quiser fixar um número de WhatsApp, preencha abaixo no formato BR sem + e sem espaços, ex: 65999999999
-const DEFAULT_WHATSAPP = "65996124566"; // deixe vazio para o cliente digitar o número na tela
+const DEFAULT_WHATSAPP = "65999114215"; // deixe vazio para o cliente digitar o número na tela
 
 // Catálogo de itens
 const combos = [
@@ -159,13 +159,13 @@ export default function EspetinhoApp() {
               </label>
               <label className="grid gap-1 sm:gap-2">
                 <span className="text-sm sm:text-base font-medium">WhatsApp para receber o pedido</span>
-                <input 
-                  value={whats} 
-                  onChange={(e) => setWhats(e.target.value)} 
-                  placeholder="Ex.: 65999999999" 
-                  className="rounded-lg sm:rounded-xl border px-3 py-2 sm:py-3 outline-none focus:ring-2 focus:ring-emerald-500 w-full text-sm sm:text-base" 
-                />
-                <span className="text-xs sm:text-sm text-zinc-500 leading-relaxed">Dica: salve aqui o número oficial do evento. Ele pode ficar salvo por padrão no código.</span>
+               <input 
+                value={whats}
+                disabled
+                placeholder="Ex.: 65999999999" 
+                className="rounded-lg sm:rounded-xl border px-3 py-2 sm:py-3 outline-none w-full text-sm sm:text-base 
+             disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed" 
+              />            
               </label>
             </div>
           </div>
