@@ -25,8 +25,7 @@ const bebidas = [
   { key: "cocaNormal", label: "Coca-Cola", price: 6 },
   { key: "fantaLar", label: "Fanta laranja", price: 6 },
   { key: "gua", label: "Guaraná", price: 6 },
-  { key: "guaZero", label: "Guaraná sem açúcar", price: 6 },
-  { key: "agua", label: "Água sem gás", price: 6 },
+  { key: "agua", label: "Água com gás", price: 6 },
 ];
 
 const sobremesa = [
