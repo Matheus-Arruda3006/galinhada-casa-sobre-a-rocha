@@ -9,26 +9,30 @@ const DEFAULT_WHATSAPP = "65999114215"; // deixe vazio para o cliente digitar o 
 const combos = [
   {
     key: "comp1",
-    label: "1 espetinho + acompanhamentos",
-    price: 15,
-    desc: "arroz, mandioca, vinagrete e farofa",
+    label: "Marmita",
+    price: 25,
+    desc: "Arroz com galinha, farofa de banana, feijão e salada",
   },
   {
     key: "comp2",
-    label: "2 espetinhos + acompanhamentos",
-    price: 20,
-    desc: "arroz, mandioca, vinagrete e farofa",
+    label: "Self-Service",
+    price: 35,
+    desc: "Pode se servir a vontade, sem limites de quantidade",
   },
 ];
 
 const bebidas = [
-  { key: "cocaNormal", label: "Coca-Cola", price: 5 },
-  { key: "cocaZero", label: "Coca-Cola sem açúcar", price: 5 },
-  { key: "guaNormal", label: "Guaraná", price: 5 },
-  { key: "guaZero", label: "Guaraná sem açúcar", price: 5 },
-  { key: "agua", label: "Água sem gás", price: 5 },
-  { key: "aguaG", label: "Água com gás", price: 5 },
+  { key: "cocaNormal", label: "Coca-Cola", price: 6 },
+  { key: "fantaLar", label: "Fanta laranja", price: 6 },
+  { key: "gua", label: "Guaraná", price: 6 },
+  { key: "guaZero", label: "Guaraná sem açúcar", price: 6 },
+  { key: "agua", label: "Água sem gás", price: 6 },
 ];
+
+const sobremesa = [
+  { key: "mousse", label: "Mousse de Limão", desc: "Mousse de limão com Ganache de Chocolate meio amargo", price: 10 },
+  { key: "briga", label: "Brigadeiro", price: 2 }
+]
 
 export default function EspetinhoApp() {
   const [qty, setQty] = useState<Record<string, number>>({});
@@ -83,7 +87,7 @@ export default function EspetinhoApp() {
     <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white text-zinc-900">
       <header className="sticky top-0 z-10 backdrop-blur bg-white/70 border-b">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 py-3 sm:py-4 flex items-center justify-between">
-          <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight">Espetinho Solidário</h1>
+          <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight text-red-600">Galinhada na Casa</h1>
           <div className="text-xs sm:text-sm font-medium">
             Total: <span className="text-emerald-700">R$ {total.toFixed(2)}</span>
           </div>
@@ -109,9 +113,26 @@ export default function EspetinhoApp() {
           </div>
         </section>
 
+        <section>
+          <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-3 sm:mb-4">Sobremesas</h2>
+          <div className="grid gap-3 sm:gap-4 sm:grid-cols-2">
+            {sobremesa.map((item) => (
+              <CardItem
+                key={item.key}
+                title={item.label}
+                desc={item.desc}
+                price={item.price}
+                value={qty[item.key] || 0}
+                onInc={() => handleInc(item.key)}
+                onDec={() => handleDec(item.key)}
+              />
+            ))}
+          </div>
+        </section>
+
         {/* Bebidas */}
         <section>
-          <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-3 sm:mb-4">Bebidas (R$ 5,00 cada)</h2>
+          <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-3 sm:mb-4">Bebidas (apenas lata)</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
             {bebidas.map((item) => (
               <CardItem
@@ -129,9 +150,9 @@ export default function EspetinhoApp() {
         {/* Pagamento e dados do cliente */}
         <section className="grid gap-4 sm:gap-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-            <fieldset className="p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl border bg-white shadow-sm">
-              <legend className="px-1 text-sm sm:text-base font-medium">Forma de pagamento</legend>
-              <div className="mt-2 sm:mt-3 grid grid-cols-3 gap-2 sm:gap-3">
+            <div className="p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl border bg-white shadow-sm">
+              <p className="px-1 text-sm sm:text-base font-medium">Forma de pagamento</p>
+              <div className="mt-2 sm:mt-3 grid grid-cols-3 gap-2 sm:gap-3 mb-20">
                 {["Pix", "Crédito", "Débito"].map((opt) => (
                   <label key={opt} className={`flex items-center justify-center rounded-lg sm:rounded-xl border px-2 sm:px-3 py-2 sm:py-3 cursor-pointer text-xs sm:text-sm transition-all hover:bg-gray-50 ${pagamento === opt ? "ring-2 ring-emerald-500 bg-emerald-50" : ""}`}>
                     <input
@@ -145,39 +166,40 @@ export default function EspetinhoApp() {
                   </label>
                 ))}
               </div>
-            </fieldset>
+              <p className="text-sm text-slate-500 font-light italic">O pagamento pode ser efetuado de maneira antecipada ou no dia da galinhada.</p>
+            </div>
 
             <div className="p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl border bg-white shadow-sm grid gap-3 sm:gap-4">
               <label className="grid gap-1 sm:gap-2">
-                <span className="text-sm sm:text-base font-medium">Seu nome (opcional)</span>
-                <input 
-                  value={nome} 
-                  onChange={(e) => setNome(e.target.value)} 
-                  placeholder="Ex.: Marco" 
-                  className="rounded-lg sm:rounded-xl border px-3 py-2 sm:py-3 outline-none focus:ring-2 focus:ring-emerald-500 w-full text-sm sm:text-base" 
+                <span className="text-sm sm:text-base font-medium">Seu nome (obrigatório)</span>
+                <input
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
+                  placeholder="Ex.: Marco"
+                  className="rounded-lg sm:rounded-xl border px-3 py-2 sm:py-3 outline-none focus:ring-2 focus:ring-emerald-500 w-full text-sm sm:text-base"
                 />
               </label>
               <label className="grid gap-1 sm:gap-2">
-                <span className="text-sm sm:text-base font-medium">WhatsApp para receber o pedido</span>
-               <input 
-                value={whats}
-                disabled
-                placeholder="Ex.: 65999999999" 
-                className="rounded-lg sm:rounded-xl border px-3 py-2 sm:py-3 outline-none w-full text-sm sm:text-base 
-             disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed" 
-              />            
+                <span className="text-sm sm:text-base font-medium">WhatsApp que receberá o seu pedido</span>
+                <input
+                  value={whats}
+                  disabled
+                  placeholder="Ex.: 65999999999"
+                  className="rounded-lg sm:rounded-xl border px-3 py-2 sm:py-3 outline-none w-full text-sm sm:text-base 
+             disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
+                />
               </label>
             </div>
           </div>
 
           <label className="p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl border bg-white shadow-sm grid gap-2 sm:gap-3">
             <span className="text-sm sm:text-base font-medium">Observações do pedido (opcional)</span>
-            <textarea 
-              value={observacoes} 
-              onChange={(e) => setObservacoes(e.target.value)} 
-              rows={3} 
-              placeholder="Tirar cebola, sem vinagrete, retirar talher, etc." 
-              className="rounded-lg sm:rounded-xl border px-3 py-2 sm:py-3 outline-none focus:ring-2 focus:ring-emerald-500 w-full text-sm sm:text-base resize-none" 
+            <textarea
+              value={observacoes}
+              onChange={(e) => setObservacoes(e.target.value)}
+              rows={3}
+              placeholder="Tirar farofa, sem salada, retirar talher, etc."
+              className="rounded-lg sm:rounded-xl border px-3 py-2 sm:py-3 outline-none focus:ring-2 focus:ring-emerald-500 w-full text-sm sm:text-base resize-none"
             />
           </label>
         </section>
@@ -244,20 +266,20 @@ function CardItem({ title, desc, price, value, onInc, onDec }: {
         <div className="text-xs sm:text-sm lg:text-base mt-1 sm:mt-2 font-medium text-emerald-600">R$ {price.toFixed(2)}</div>
       </div>
       <div className="flex items-center gap-2 sm:gap-3 self-end md:self-center">
-        <button 
-          onClick={onDec} 
+        <button
+          onClick={onDec}
           className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-full border grid place-items-center hover:bg-zinc-50 active:bg-zinc-100 transition-colors text-lg sm:text-xl font-medium"
           disabled={value === 0}
         >
           −
         </button>
-        <input 
-          readOnly 
-          value={value} 
-          className="w-10 sm:w-12 lg:w-14 text-center border rounded-lg sm:rounded-xl py-1 sm:py-2 text-sm sm:text-base font-medium" 
+        <input
+          readOnly
+          value={value}
+          className="w-10 sm:w-12 lg:w-14 text-center border rounded-lg sm:rounded-xl py-1 sm:py-2 text-sm sm:text-base font-medium"
         />
-        <button 
-          onClick={onInc} 
+        <button
+          onClick={onInc}
           className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-full border grid place-items-center hover:bg-zinc-50 active:bg-zinc-100 transition-colors text-lg sm:text-xl font-medium"
         >
           +
