@@ -40,7 +40,7 @@ export default function EspetinhoApp() {
   const [observacoes, setObservacoes] = useState<string>("");
   const [whats, setWhats] = useState<string>(DEFAULT_WHATSAPP);
 
-  const allItems = [...combos, ...bebidas];
+  const allItems = [...combos, ...bebidas, ...sobremesa];
 
   const total = useMemo(() => {
     return allItems.reduce((acc, item) => acc + (qty[item.key] || 0) * item.price, 0);
