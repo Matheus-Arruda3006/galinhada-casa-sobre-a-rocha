@@ -60,6 +60,10 @@ export default function EspetinhoApp() {
       const n = qty[b.key] || 0;
       if (n > 0) lines.push(`${n}x ${b.label} — R$ ${(b.price * n).toFixed(2)}`);
     });
+    sobremesa.forEach((b) => {
+      const n = qty[b.key] || 0;
+      if (n > 0) lines.push(`${n}x ${b.label} — R$ ${(b.price * n).toFixed(2)}`);
+    });
     return lines;
   }, [qty]);
 
