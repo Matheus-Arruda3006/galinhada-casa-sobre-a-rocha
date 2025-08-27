@@ -169,7 +169,14 @@ export default function EspetinhoApp() {
                   </label>
                 ))}
               </div>
-           
+              <div className="flex flex-col gap-y-2">
+                <p className="text-sm text-black font-normal italic">O pagamento pode ser efetuado de maneira antecipada ou no dia da galinhada.</p>
+                <ul>
+                  <li className="text-sm text-black font-normal italic"> Crianças de 0 até 6 anos <label className="text-red-500 font-bold">não pagam.</label></li>
+                 <li className="text-sm text-black font-normal italic"> Crianças de 7 até 11 anos <label className="text-red-500 font-bold">pagam apenas: R$ 17,50 reais.</label></li>
+                 <li className="text-sm text-black font-normal italic"> Crianças acima de 12 anos <label className="text-red-500 font-bold">pagam o valor inteiro.</label></li>
+                </ul>
+              </div>
               
             </div>
 
