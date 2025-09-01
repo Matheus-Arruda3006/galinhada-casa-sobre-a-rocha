@@ -68,7 +68,7 @@ export default function EspetinhoApp() {
   }, [qty]);
 
   const textoWhatsApp = useMemo(() => {
-    const header = `*Pedido — Espetinho Solidário*`;
+    const header = `*Pedido — Galinhada na Casa*`;
     const nomeLinha = nome ? `\nNome: ${nome}` : "";
     const itens = pedidoLines.length > 0 ? `\n\nItens:\n- ${pedidoLines.join("\n- ")}` : "\n\nItens: (vazio)";
     const obs = observacoes ? `\n\nObservações: ${observacoes}` : "";
@@ -100,7 +100,7 @@ export default function EspetinhoApp() {
       <main className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 py-4 sm:py-6 space-y-6 sm:space-y-8">
         {/* Combos */}
         <section>
-          <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-3 sm:mb-4">Combos</h2>
+          <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-3 sm:mb-4">Opções</h2>
           <div className="grid gap-3 sm:gap-4 sm:grid-cols-2">
             {combos.map((item) => (
               <CardItem
@@ -155,7 +155,7 @@ export default function EspetinhoApp() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             <div className="p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl border bg-white shadow-sm">
               <p className="px-1 text-sm sm:text-base font-medium">Forma de pagamento</p>
-              <div className="mt-2 sm:mt-3 grid grid-cols-3 gap-2 sm:gap-3 mb-20">
+              <div className="mt-2 sm:mt-3 grid grid-cols-3 gap-2 sm:gap-3 mb-4">
                 {["Pix", "Crédito", "Débito"].map((opt) => (
                   <label key={opt} className={`flex items-center justify-center rounded-lg sm:rounded-xl border px-2 sm:px-3 py-2 sm:py-3 cursor-pointer text-xs sm:text-sm transition-all hover:bg-gray-50 ${pagamento === opt ? "ring-2 ring-emerald-500 bg-emerald-50" : ""}`}>
                     <input
@@ -169,37 +169,52 @@ export default function EspetinhoApp() {
                   </label>
                 ))}
               </div>
+
+              {pagamento === "Pix" && (
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+                  <p className="text-sm text-blue-800 font-medium">📱 Informações para pagamento via PIX:</p>
+                  <p className="text-xs text-blue-700 mt-1">
+                    Chave PIX: <span className="font-mono font-semibold">65999114215</span>
+                  </p>
+                  <p className="text-xs text-blue-700 mt-1">
+                    Nome: <span className="font-semibold">Camila Klein Alves</span>
+                  </p>
+                </div>
+              )}
+
               <div className="flex flex-col gap-y-2">
                 <p className="text-sm text-black font-normal italic">O pagamento pode ser efetuado de maneira antecipada ou no dia da galinhada.</p>
                 <ul>
-                  <li className="text-sm text-black font-normal italic"> Crianças de 0 até 6 anos <label className="text-red-500 font-bold">não pagam.</label></li>
-                 <li className="text-sm text-black font-normal italic"> Crianças de 7 até 11 anos <label className="text-red-500 font-bold">pagam apenas: R$ 17,50 reais.</label></li>
-                 <li className="text-sm text-black font-normal italic"> Crianças acima de 12 anos <label className="text-red-500 font-bold">pagam o valor inteiro.</label></li>
+                  <li className="text-sm text-black font-normal italic"> Crianças de 0 até 6 anos <span className="text-red-500 font-bold">não pagam.</span></li>
+                  <li className="text-sm text-black font-normal italic"> Crianças de 7 até 11 anos <span className="text-red-500 font-bold">pagam apenas: R$ 17,50 reais.</span></li>
+                  <li className="text-sm text-black font-normal italic"> Crianças acima de 12 anos <span className="text-red-500 font-bold">pagam o valor inteiro.</span></li>
                 </ul>
               </div>
-              
+
             </div>
 
-            <div className="p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl border bg-white shadow-sm grid gap-3 sm:gap-4">
-              <label className="grid gap-1 sm:gap-2">
-                <span className="text-sm sm:text-base font-medium">Seu nome (obrigatório)</span>
-                <input
-                  value={nome}
-                  onChange={(e) => setNome(e.target.value)}
-                  placeholder="Ex.: Marco"
-                  className="rounded-lg sm:rounded-xl border px-3 py-2 sm:py-3 outline-none focus:ring-2 focus:ring-emerald-500 w-full text-sm sm:text-base"
-                />
-              </label>
-              <label className="grid gap-1 sm:gap-2">
-                <span className="text-sm sm:text-base font-medium">WhatsApp que receberá o seu pedido</span>
-                <input
-                  value={whats}
-                  disabled
-                  placeholder="Ex.: 65999999999"
-                  className="rounded-lg sm:rounded-xl border px-3 py-2 sm:py-3 outline-none w-full text-sm sm:text-base 
-             disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
-                />
-              </label>
+            <div className="p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl border bg-white shadow-sm">
+              <div className="grid gap-3 sm:gap-4">
+                <label className="grid gap-1 sm:gap-2">
+                  <span className="text-sm sm:text-base font-medium">Seu nome (obrigatório)</span>
+                  <input
+                    value={nome}
+                    onChange={(e) => setNome(e.target.value)}
+                    placeholder="Ex.: Marco"
+                    className="rounded-lg sm:rounded-xl border px-3 py-2 sm:py-3 outline-none focus:ring-2 focus:ring-emerald-500 w-full text-sm sm:text-base"
+                  />
+                </label>
+                <label className="grid gap-1 sm:gap-2">
+                  <span className="text-sm sm:text-base font-medium">WhatsApp que receberá o seu pedido</span>
+                  <input
+                    value={whats}
+                    disabled
+                    placeholder="Ex.: 65999999999"
+                    className="rounded-lg sm:rounded-xl border px-3 py-2 sm:py-3 outline-none w-full text-sm sm:text-base 
+               disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
+                  />
+                </label>
+              </div>
             </div>
           </div>
 
